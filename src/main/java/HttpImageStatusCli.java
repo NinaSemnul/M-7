@@ -2,11 +2,11 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class HttpImageStatusCli {
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception {
         askStatus();
     }
 
-    public static void askStatus(){
+    public static void askStatus() throws Exception {
         int num = 0;
         num = askStatusAgain();
 
@@ -14,7 +14,13 @@ public class HttpImageStatusCli {
             num = askStatusAgain();
         }
 
-        HttpStatusImageDownloader.downloadStatusImage(num);
+        try {
+            HttpStatusImageDownloader.downloadStatusImage(num);
+            System.out.println("File uploaded successfully.");
+        }catch (HttpStatusImageDownloader.downloadImageException e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
     public static int askStatusAgain(){

@@ -2,7 +2,7 @@ import org.jsoup.Jsoup;
 import java.io.IOException;
 
 public class HttpStatusChecker {
-    public static String getStatusImage(int code){
+    public static String getStatusImage(int code) throws StatusImageException {
 
         String url = "https://http.cat/" + code + ".jpg";
         String json = null;
@@ -12,13 +12,16 @@ public class HttpStatusChecker {
                     .get()
                     .body()
                     .text();
-
             return url ;
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return null;
+            throw new StatusImageException("There is not image for HTTP status: " + code);
         }
+    }
 
+    public static class StatusImageException extends Exception {
+        public StatusImageException(String message) {
+            super(message);
+        }
     }
 }
